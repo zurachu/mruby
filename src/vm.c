@@ -4,6 +4,10 @@
 ** See Copyright Notice in mruby.h
 */
 
+#ifdef PIECE
+#include <smcvals.h>
+#endif
+
 #include <stddef.h>
 #include <stdarg.h>
 #include <math.h>

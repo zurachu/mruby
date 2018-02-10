@@ -5,6 +5,7 @@
 */
 
 #ifdef PIECE
+#include <smcvals.h>
 #define _WCHAR_T
 #endif
 
