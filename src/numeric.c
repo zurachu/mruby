@@ -4,6 +4,10 @@
 ** See Copyright Notice in mruby.h
 */
 
+#ifdef PIECE
+#define _WCHAR_T
+#endif
+
 #ifndef MRB_WITHOUT_FLOAT
 #include <float.h>
 #include <math.h>
