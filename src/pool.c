@@ -37,7 +37,7 @@ struct mrb_pool_page {
   size_t offset;
   size_t len;
   void *last;
-  char page[];
+  char *page;
 };
 
 #ifdef _MSC_VER
