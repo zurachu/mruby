@@ -38,6 +38,10 @@ MRB_BEGIN_DECL
 #else
 # define mrb_noreturn
 #endif
+#ifdef PIECE
+# undef mrb_noreturn
+# define mrb_noreturn
+#endif
 
 /** Mark a function as deprecated. */
 #if defined __GNUC__ && !defined __STRICT_ANSI__
