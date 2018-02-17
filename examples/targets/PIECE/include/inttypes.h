@@ -271,27 +271,6 @@ typedef struct {
 
 // 7.8.2.2 The imaxdiv function
 
-// This is modified version of div() function from Microsoft's div.c found
-// in %MSVC.NET%\crt\src\div.c
-#ifdef STATIC_IMAXDIV // [
-static
-#endif // STATIC_IMAXDIV ]
-imaxdiv_t imaxdiv(intmax_t numer, intmax_t denom)
-{
-   imaxdiv_t result;
-
-   result.quot = numer / denom;
-   result.rem = numer % denom;
-
-   if (numer < 0 && result.rem > 0) {
-      // did division wrong; must fix up
-      ++result.quot;
-      result.rem -= denom;
-   }
-
-   return result;
-}
-
 // 7.8.2.3 The strtoimax and strtoumax functions
 #define strtoimax _strtoi64
 #define strtoumax _strtoui64
