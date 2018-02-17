@@ -200,7 +200,7 @@ gettimeofday_time(void)
 #define other_white_part(s) ((s)->current_white_part ^ GC_WHITES)
 #define is_dead(s, o) (((o)->color & other_white_part(s) & GC_WHITES) || (o)->tt == MRB_TT_FREE)
 
-#define objects(p) ((RVALUE *)p->objects)
+#define objects(p) ((RVALUE *)((char*)p+sizeof(mrb_heap_page)))
 
 MRB_API void*
 mrb_realloc_simple(mrb_state *mrb, void *p,  size_t len)
