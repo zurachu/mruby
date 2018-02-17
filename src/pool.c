@@ -37,7 +37,6 @@ struct mrb_pool_page {
   size_t offset;
   size_t len;
   void *last;
-  char page[];
 };
 
 #ifdef _MSC_VER
@@ -119,7 +118,7 @@ mrb_pool_alloc(mrb_pool *pool, size_t len)
     if (page->offset + len <= page->len) {
       n = page->offset;
       page->offset += len;
-      page->last = (char*)page->page+n;
+      page->last = (char*)page+sizeof(struct mrb_pool_page)+n;
       return page->last;
     }
     page = page->next;
@@ -130,7 +129,7 @@ mrb_pool_alloc(mrb_pool *pool, size_t len)
   page->next = pool->pages;
   pool->pages = page;
 
-  page->last = (void*)page->page;
+  page->last = (void*)((char*)page+sizeof(struct mrb_pool_page));
   return page->last;
 }
 
@@ -146,7 +145,7 @@ mrb_pool_can_realloc(mrb_pool *pool, void *p, size_t len)
     if (page->last == p) {
       size_t beg;
 
-      beg = (char*)p - page->page;
+      beg = (char*)p - ((char*)page+sizeof(struct mrb_pool_page));
       if (beg + len > page->len) return FALSE;
       return TRUE;
     }
@@ -169,7 +168,7 @@ mrb_pool_realloc(mrb_pool *pool, void *p, size_t oldlen, size_t newlen)
     if (page->last == p) {
       size_t beg;
 
-      beg = (char*)p - page->page;
+      beg = (char*)p - ((char*)page+sizeof(struct mrb_pool_page));
       if (beg + oldlen != page->offset) break;
       if (beg + newlen > page->len) {
         page->offset = beg;
