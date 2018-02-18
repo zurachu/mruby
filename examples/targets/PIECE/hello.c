@@ -11,7 +11,7 @@ static unsigned char draw;
 
 int errno;
 void _exit( int status ) { while(1); }
-void exit( int status ) { _exit(status); }
+void exit( int status ) { while(1); }
 
 mrb_state* mrb;
 
