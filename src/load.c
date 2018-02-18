@@ -4,10 +4,6 @@
 ** See Copyright Notice in mruby.h
 */
 
-#ifdef PIECE
-#define _WCHAR_T
-#endif
-
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>

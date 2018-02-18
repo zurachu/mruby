@@ -34,6 +34,12 @@
 #define __STDC_FORMAT_MACROS
 #endif
 
+#ifdef PIECE
+  #if defined(_WCHAR_T) && !defined(_WCHART)
+    #define _WCHART
+  #endif
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 #include <limits.h>

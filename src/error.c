@@ -6,7 +6,6 @@
 
 #ifdef PIECE
 #include <smcvals.h>
-#define _WCHAR_T
 #endif
 
 #include <errno.h>
