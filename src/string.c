@@ -8,15 +8,10 @@
 # define _CRT_NONSTDC_NO_DEPRECATE
 #endif
 
-#ifdef PIECE
-#define _WCHAR_T
-#endif
-
 #ifndef MRB_WITHOUT_FLOAT
 #include <float.h>
 #endif
 #include <limits.h>
-#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <mruby.h>
