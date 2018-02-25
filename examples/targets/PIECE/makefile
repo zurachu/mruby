@@ -1,11 +1,11 @@
-# Piece ï¿½p makefile
+# Piece —p makefile
 
-# ï¿½gï¿½ï¿½ï¿½qï¿½Ì’ï¿½`
+# Šg’£Žq‚Ì’è‹`
 
 .SUFFIXES:
 .SUFFIXES:  .o .s .c
 
-# ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Eï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ}ï¿½Nï¿½ï¿½
+# ¶¬ƒRƒ}ƒ“ƒhEƒIƒvƒVƒ‡ƒ“‚Ìƒ}ƒNƒ
 
 CC = pcc33
 CFLAGS = -c -g -gp=0x0 -near -O2 -Wall \
@@ -17,7 +17,12 @@ ASFLAGS = -c -g -gp=0x0 -near
 LD = pcc33
 LDFLAGS = -g -ls -lm
 
-# ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½ï¿½
+MRBC = ..\..\..\build\host\bin\mrbc
+
+# ¶¬‹K‘¥
+
+%.c : %.rb
+	$(MRBC) -B$(notdir $(basename $<)) $<
 
 .c.o:
 	$(CC) $(CFLAGS) $<
@@ -25,24 +30,24 @@ LDFLAGS = -g -ls -lm
 .s.o:
 	$(AS) $(ASFLAGS) $<
 
-# ï¿½\ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìƒ}ï¿½Nï¿½ï¿½
+# \¬ƒtƒ@ƒCƒ‹E¶¬ƒtƒ@ƒCƒ‹‚Ìƒ}ƒNƒ
 
 PRGNAME = hello
 FILENAME = hello
 CAPTION = HelloWorld
-OBJS =	hello.o int64.o \
+OBJS =	hello.o int64.o mrb_hello.o \
 	..\..\..\build\piece\lib\libmruby.lib
 
 $(PRGNAME).srf : $(OBJS)
 	$(LD) $(LDFLAGS) -e$(PRGNAME).srf $(OBJS)
 
-# ï¿½Ë‘ï¿½ï¿½ÖŒW
+# ˆË‘¶ŠÖŒW
 
-# ï¿½tï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÝƒCï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
+# ƒtƒ‰ƒbƒVƒ…‘‚«ž‚ÝƒCƒ[ƒW¶¬
 pex : $(PRGNAME).srf
 	ppack -e $(PRGNAME).srf -o$(FILENAME).pex -n$(CAPTION)
 
-# ï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½bï¿½v
+# ƒNƒŠ[ƒ“ƒAƒbƒv
 clean:
 	del $(PRGNAME).srf $(FILENAME).pex $(PRGNAME).sym $(PRGNAME).map *.o
 
