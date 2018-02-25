@@ -22,6 +22,13 @@ MRuby::CrossBuild.new("piece") do |conf|
     cc.flags = "-Wall -g -O2"
     cc.include_paths << ["examples/targets/PIECE/include"]
     cc.defines = %w(PIECE MRB_32BIT MRB_METHOD_TABLE_INLINE MRB_DISABLE_STDIO MRB_WITHOUT_FLOAT)
+
+    #configuration for low memory environment
+    cc.defines << %w(MRB_HEAP_PAGE_SIZE=64)
+    cc.defines << %w(KHASH_DEFAULT_SIZE=8)
+    cc.defines << %w(MRB_STR_BUF_MIN_SIZE=20)
+    cc.defines << %w(MRB_GC_STRESS)
+    
     cc.option_include_path = "-I%s"
     cc.option_define = "-D%s"
     cc.compile_options = "%{flags} -o %{outfile} -c %{infile}"

@@ -1,22 +1,23 @@
-# Piece —p makefile
+# Piece ï¿½p makefile
 
-# Šg’£Žq‚Ì’è‹`
+# ï¿½gï¿½ï¿½ï¿½qï¿½Ì’ï¿½`
 
 .SUFFIXES:
 .SUFFIXES:  .o .s .c
 
-# ¶¬ƒRƒ}ƒ“ƒhEƒIƒvƒVƒ‡ƒ“‚Ìƒ}ƒNƒ
+# ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Eï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ}ï¿½Nï¿½ï¿½
 
 CC = pcc33
 CFLAGS = -c -g -gp=0x0 -near -O2 -Wall \
 	-I..\..\..\include -Iinclude \
 	-DPIECE -DMRB_32BIT -DMRB_METHOD_TABLE_INLINE -DMRB_DISABLE_STDIO -DMRB_WITHOUT_FLOAT
+	-DMRB_HEAP_PAGE_SIZE=64 -KHASH_DEFAULT_SIZE=8 -DMRB_STR_BUF_MIN_SIZE=20 -DMRB_GC_STRESS
 AS = pcc33
 ASFLAGS = -c -g -gp=0x0 -near
 LD = pcc33
 LDFLAGS = -g -ls -lm
 
-# ¶¬‹K‘¥
+# ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½ï¿½
 
 .c.o:
 	$(CC) $(CFLAGS) $<
@@ -24,7 +25,7 @@ LDFLAGS = -g -ls -lm
 .s.o:
 	$(AS) $(ASFLAGS) $<
 
-# \¬ƒtƒ@ƒCƒ‹E¶¬ƒtƒ@ƒCƒ‹‚Ìƒ}ƒNƒ
+# ï¿½\ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìƒ}ï¿½Nï¿½ï¿½
 
 PRGNAME = hello
 FILENAME = hello
@@ -35,13 +36,13 @@ OBJS =	hello.o int64.o \
 $(PRGNAME).srf : $(OBJS)
 	$(LD) $(LDFLAGS) -e$(PRGNAME).srf $(OBJS)
 
-# ˆË‘¶ŠÖŒW
+# ï¿½Ë‘ï¿½ï¿½ÖŒW
 
-# ƒtƒ‰ƒbƒVƒ…‘‚«ž‚ÝƒCƒ[ƒW¶¬
+# ï¿½tï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÝƒCï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 pex : $(PRGNAME).srf
 	ppack -e $(PRGNAME).srf -o$(FILENAME).pex -n$(CAPTION)
 
-# ƒNƒŠ[ƒ“ƒAƒbƒv
+# ï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½bï¿½v
 clean:
 	del $(PRGNAME).srf $(FILENAME).pex $(PRGNAME).sym $(PRGNAME).map *.o
 
