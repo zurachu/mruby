@@ -5,6 +5,8 @@
 #include <piece.h>
 
 #include "mruby.h"
+#include "mruby/dump.h"
+#include "mruby/proc.h"
 
 unsigned char vbuff[128*88];
 static unsigned char draw;
@@ -14,6 +16,8 @@ void _exit( int status ) { while(1); }
 void exit( int status ) { while(1); }
 
 mrb_state* mrb;
+
+extern const uint8_t mrb_hello[];
 
 static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 {
@@ -33,15 +37,27 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 
 void pceAppInit( void )
 {
+	mrb_irep* irep;
+
 	pceLCDDispStop();
 	pceLCDSetBuffer( vbuff );
 	pceAppSetProcPeriod( 80 );
 	memset( vbuff, 0, 128*88 );
 
-	mrb = mrb_open_allocf(allocf, NULL);
+	pceFontSetPos( 0, 0 );
+	pceFontPutStr("pceAppInit: ");
+	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
 
-	pceFontSetPos( 0, 0);
-	pceFontPrintf("Hello, World");
+	mrb = mrb_open_allocf(allocf, NULL);
+	if(mrb)
+	{
+		pceFontPutStr("mrb_open_allocf: ");
+		pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
+	}
+	else
+	{
+		pceFontPutStr("mrb_open_allocf failed.\n");		
+	}
 
 	draw = 1;
 
