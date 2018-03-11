@@ -26,7 +26,7 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 	{
 		if(p)
 		{
-		pceHeapFree(p);
+			pceHeapFree(p);
 		}
 		return NULL;
 	}
@@ -41,7 +41,7 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 
 void pceAppInit( void )
 {
-	mrb_irep* irep;
+	mrb_value ret;
 
 	pceLCDDispStop();
 	pceLCDSetBuffer( vbuff );
@@ -62,6 +62,12 @@ void pceAppInit( void )
 	{
 		pceFontPutStr("mrb_open_allocf failed.\n");		
 	}
+
+	ret = mrb_load_irep(mrb, mrb_hello);
+	pceFontPutStr("mrb_load_irep: ");
+	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
+
+	pceFontPrintf("%d\n", mrb_fixnum(ret));
 
 	draw = 1;
 
