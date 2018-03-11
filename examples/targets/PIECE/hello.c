@@ -24,7 +24,10 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 	void* ret;
 	if(size == 0)
 	{
+		if(p)
+		{
 		pceHeapFree(p);
+		}
 		return NULL;
 	}
 	ret = pceHeapAlloc(size);
