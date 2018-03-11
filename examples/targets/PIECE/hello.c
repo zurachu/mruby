@@ -31,6 +31,7 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 	if(p)
 	{
 		memcpy(ret, p, size);
+		pceHeapFree(p);		
 	}
 	return ret;
 }
