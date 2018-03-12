@@ -39,10 +39,23 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 	return ret;
 }
 
+static mrb_value pce_font_put_str(mrb_state *mrb, mrb_value self)
+{
+	char* str;
+	mrb_get_args(mrb, "z", &str);
+	pceFontPutStr(str);
+	return mrb_nil_value();
+}
+
+static void setup_module()
+{
+	struct RClass* pce = mrb_define_module(mrb, "Pce");
+	struct RClass* pce_font = mrb_define_module_under(mrb, pce, "Font");
+	mrb_define_module_function(mrb, pce_font, "put_str", pce_font_put_str, MRB_ARGS_REQ(1));
+}
+
 void pceAppInit( void )
 {
-	mrb_value ret;
-
 	pceLCDDispStop();
 	pceLCDSetBuffer( vbuff );
 	pceAppSetProcPeriod( 80 );
@@ -63,11 +76,13 @@ void pceAppInit( void )
 		pceFontPutStr("mrb_open_allocf failed.\n");		
 	}
 
-	ret = mrb_load_irep(mrb, mrb_hello);
-	pceFontPutStr("mrb_load_irep: ");
+	setup_module();
+	pceFontPutStr("setup_module: ");
 	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
 
-	pceFontPrintf("%d\n", mrb_fixnum(ret));
+	mrb_load_irep(mrb, mrb_hello);
+	pceFontPutStr("mrb_load_irep: ");
+	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
 
 	draw = 1;
 
