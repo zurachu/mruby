@@ -5,5 +5,9 @@ def prime?(n)
   true
 end
 
+def puts(x)
+  Pce::Font::put_str "#{x}\n"
+end
+
 a = (2..100).select {|n| prime?(n) }
-Pce::Font::put_str "#{a.to_s}\n"
+puts a
