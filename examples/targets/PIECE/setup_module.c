@@ -2,6 +2,14 @@
 
 #include "mruby.h"
 
+static mrb_value pce_app_req_exit(mrb_state *mrb, mrb_value self)
+{
+	mrb_int i;
+	mrb_get_args(mrb, "i", &i);
+	pceAppReqExit(i);
+	return mrb_nil_value();
+}
+
 static mrb_value pce_font_put_str(mrb_state *mrb, mrb_value self)
 {
 	char* str;
@@ -13,6 +21,8 @@ static mrb_value pce_font_put_str(mrb_state *mrb, mrb_value self)
 void setup_module(mrb_state *mrb)
 {
 	struct RClass* pce = mrb_define_module(mrb, "Pce");
+	struct RClass* pce_app = mrb_define_module_under(mrb, pce, "App");
 	struct RClass* pce_font = mrb_define_module_under(mrb, pce, "Font");
+	mrb_define_module_function(mrb, pce_app, "req_exit", pce_app_req_exit, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, pce_font, "put_str", pce_font_put_str, MRB_ARGS_REQ(1));
 }
