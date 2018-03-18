@@ -35,7 +35,7 @@ MRBC = ..\..\..\build\host\bin\mrbc
 PRGNAME = hello
 FILENAME = hello
 CAPTION = HelloWorld
-OBJS =	hello.o int64.o mrb_hello.o \
+OBJS =	hello.o setup_module.o int64.o mrb_hello.o \
 	..\..\..\build\piece\lib\libmruby.lib
 
 $(PRGNAME).srf : $(OBJS)

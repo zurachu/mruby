@@ -17,6 +17,8 @@ void exit( int status ) { while(1); }
 
 mrb_state* mrb;
 
+void setup_module(mrb_state *mrb);
+
 extern const uint8_t mrb_hello[];
 
 static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
@@ -37,21 +39,6 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 		pceHeapFree(p);		
 	}
 	return ret;
-}
-
-static mrb_value pce_font_put_str(mrb_state *mrb, mrb_value self)
-{
-	char* str;
-	mrb_get_args(mrb, "z", &str);
-	pceFontPutStr(str);
-	return mrb_nil_value();
-}
-
-static void setup_module()
-{
-	struct RClass* pce = mrb_define_module(mrb, "Pce");
-	struct RClass* pce_font = mrb_define_module_under(mrb, pce, "Font");
-	mrb_define_module_function(mrb, pce_font, "put_str", pce_font_put_str, MRB_ARGS_REQ(1));
 }
 
 void pceAppInit( void )
@@ -76,7 +63,7 @@ void pceAppInit( void )
 		pceFontPutStr("mrb_open_allocf failed.\n");		
 	}
 
-	setup_module();
+	setup_module(mrb);
 	pceFontPutStr("setup_module: ");
 	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
 
