@@ -48,6 +48,7 @@ void pceAppInit( void )
 	pceAppSetProcPeriod( 80 );
 	memset( vbuff, 0, 128*88 );
 
+	pceFontSetType( 2 );
 	pceFontSetPos( 0, 0 );
 	pceFontPutStr("pceAppInit: ");
 	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
