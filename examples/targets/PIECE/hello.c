@@ -90,6 +90,10 @@ void pceAppInit( void )
 
 void pceAppProc( int cnt )
 {
+	if ( pcePadGet() & PAD_D ) {
+		pceAppReqExit(0);
+	}
+
 	if ( draw ) {
 		pceLCDTrans();
 		draw = 0;
