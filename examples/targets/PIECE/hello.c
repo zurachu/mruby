@@ -41,8 +41,18 @@ static void* allocf(mrb_state* mrb, void* p, size_t size, void* ud)
 	return ret;
 }
 
+unsigned long prev_timer_get_count;
+void put_timer_and_heap()
+{
+	unsigned long timer_get_count = pceTimerGetCount();
+	pceFontPrintf( "%5d:%5d:", timer_get_count - prev_timer_get_count, pceHeapGetMaxFreeSize() );
+	prev_timer_get_count = timer_get_count;
+}
+
 void pceAppInit( void )
 {
+	prev_timer_get_count = pceTimerGetCount();
+
 	pceLCDDispStop();
 	pceLCDSetBuffer( vbuff );
 	pceAppSetProcPeriod( 80 );
@@ -50,27 +60,27 @@ void pceAppInit( void )
 
 	pceFontSetType( 2 );
 	pceFontSetPos( 0, 0 );
-	pceFontPutStr("pceAppInit: ");
-	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
+	put_timer_and_heap();
+	pceFontPutStr("pceAppInit()\n");
 
 	mrb = mrb_open_allocf(allocf, NULL);
 	if(mrb)
 	{
-		pceFontPutStr("mrb_open_allocf: ");
-		pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
+		put_timer_and_heap();
+		pceFontPutStr("mrb_open_allocf()\n");
 	}
 	else
 	{
-		pceFontPutStr("mrb_open_allocf failed.\n");		
+		pceFontPutStr("mrb_open_allocf failed.\n");
 	}
 
 	setup_module(mrb);
-	pceFontPutStr("setup_module: ");
-	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
+	put_timer_and_heap();
+	pceFontPutStr("setup_module()");
 
 	mrb_load_irep(mrb, mrb_hello);
-	pceFontPutStr("mrb_load_irep: ");
-	pceFontPrintf("%d\n", pceHeapGetMaxFreeSize());
+	put_timer_and_heap();
+	pceFontPutStr("mrb_load_irep()\n");
 
 	draw = 1;
 
