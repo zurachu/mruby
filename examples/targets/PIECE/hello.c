@@ -10,6 +10,7 @@
 
 unsigned char vbuff[128*88];
 static unsigned char draw;
+static unsigned char phase;
 
 int errno;
 void _exit( int status ) { while(1); }
@@ -61,28 +62,10 @@ void pceAppInit( void )
 	pceFontSetType( 2 );
 	pceFontSetPos( 0, 0 );
 	put_timer_and_heap();
-	pceFontPutStr("pceAppInit()\n");
-
-	mrb = mrb_open_allocf(allocf, NULL);
-	if(mrb)
-	{
-		put_timer_and_heap();
-		pceFontPutStr("mrb_open_allocf()\n");
-	}
-	else
-	{
-		pceFontPutStr("mrb_open_allocf failed.\n");
-	}
-
-	setup_module(mrb);
-	put_timer_and_heap();
-	pceFontPutStr("setup_module()");
-
-	mrb_load_irep(mrb, mrb_hello);
-	put_timer_and_heap();
-	pceFontPutStr("mrb_load_irep()\n");
+	pceFontPutStr("pceAppInit()\n\n");
 
 	draw = 1;
+	phase = 0;
 
 	pceLCDDispStart();
 }
@@ -91,7 +74,48 @@ void pceAppInit( void )
 void pceAppProc( int cnt )
 {
 	if ( pcePadGet() & PAD_D ) {
+		phase = 0xFF;
 		pceAppReqExit(0);
+	}
+
+	switch ( phase ) {
+	case 0:
+		draw = 1;
+		phase++;
+		break;
+
+	case 1:
+		mrb = mrb_open_allocf(allocf, NULL);
+		if(mrb)
+		{
+			put_timer_and_heap();
+			pceFontPutStr("mrb_open_allocf()\n\n");
+			phase++;
+		}
+		else
+		{
+			pceFontPutStr("mrb_open_allocf failed.\n");
+			phase = 0xFF;
+		}
+		draw = 1;
+		break;
+
+	case 2:
+		setup_module(mrb);
+		put_timer_and_heap();
+		pceFontPutStr("setup_module()\n\n");
+		draw = 1;
+		phase++;
+		break;
+
+	case 3:
+		mrb_load_irep(mrb, mrb_hello);
+		pceFontPutStr("\n");
+		put_timer_and_heap();
+		pceFontPutStr("mrb_load_irep()\n");
+		draw = 1;
+		phase++;
+		break;
 	}
 
 	if ( draw ) {
